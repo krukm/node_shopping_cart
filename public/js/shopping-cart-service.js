@@ -9,7 +9,6 @@ function ShoppingCartService ($http) {
             method: 'GET'
         }).then((response) => {
             vm.cart = response.data;
-            console.log(response.data);
             return vm.cart;
         });
     }
