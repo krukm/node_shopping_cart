@@ -33,6 +33,7 @@ const cartItems = [
 shoppingCarts.post('/shopping-cart', (req, res)=> {
     console.log('POST request made');
     console.log(req.body);
+    res.send(cartItems);
 });
 
 shoppingCarts.get('/shopping-cart', (req, res) => {
@@ -40,14 +41,24 @@ shoppingCarts.get('/shopping-cart', (req, res) => {
     res.send(cartItems);
 });
 
-shoppingCarts.put('/shopping-cart', (req, res) => {
+shoppingCarts.put('/shopping-cart/:id', (req, res) => {
     console.log('PUT request made');
-    console.log(req.params.id + ' ' + req.body);
+    for (item of vm.cartItems) {
+        if (req.params.id == item.id) {
+            console.log(req.params.id + ' ' + req.body);
+        }
+    }
+    res.send(cartItems);
 });
 
-shoppingCarts.delete('/shopping-cart', (req, res) => {
+shoppingCarts.delete('/shopping-cart/:id', (req, res) => {
     console.log('DELETE resquest made');
-    console.log(req.params.id + ' ' + req.body);
+    for (item of vm.cartItems) {
+        if (req.params.id == item.id) {
+            console.log(req.params.id + ' ' + req.body);
+        }
+    }
+    res.send(cartItems);
 });
 
 module.exports = shoppingCarts;

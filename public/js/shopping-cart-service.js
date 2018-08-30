@@ -3,12 +3,13 @@
 function ShoppingCartService ($http) {
     const vm = this;
     
-    vm.getShoppingCart = () => {
+    vm.getAllItems = () => {
         return $http ({
             url: '/shopping-cart',
             method: 'GET'
         }).then((response) => {
-            vm.cart = response;
+            vm.cart = response.data;
+            console.log(response.data);
             return vm.cart;
         });
     }
