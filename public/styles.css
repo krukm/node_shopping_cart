@@ -43,6 +43,11 @@ img {
     justify-content: space-between;
 }
 
+.input__update-quantity {
+    width: 1.5rem;
+    appearance: none;
+}
+
 .p__total {
     font-weight: 900;
 }

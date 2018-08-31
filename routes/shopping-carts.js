@@ -1,64 +1,58 @@
 'use strict';
 
 const express = require('express');
-const shoppingCarts = express.Router();
+const cartItems = express.Router();
+const pool = require('../connection');
 
-const cartItems = [
-    {
-        id: 1,
-        product: 'comic book',
-        price: 10,
-        quantity: 3
-    },
-    {
-        id: 2,
-        product: 'action figure',
-        price: 15,
-        quantity: 2
-    },
-    {
-        id: 3,
-        product: 'video game',
-        price: 70,
-        quantity: 1
-    },
-    {
-        id: 4,
-        product: 'candy bar',
-        price: 2,
-        quantity: 5
-    }
-]
+let getQuery = 'select * from ShoppingCart order by id';
+let insertQuery = 'insert into ShoppingCart (product, price, quantity) values($1::text, $2::real, $3::int)';
+let updateQuery = 'update ShoppingCart set quantity = $1::int where id = $2::int';
+let deleteQuery ='delete from ShoppingCart where id = $1::int';
 
-shoppingCarts.post('/shopping-cart', (req, res)=> {
-    console.log('POST request made');
-    console.log(req.body);
-    res.send(cartItems);
-});
-
-shoppingCarts.get('/shopping-cart', (req, res) => {
+cartItems.get('/shopping-cart', (req, res) => {
     console.log('GET request made');
-    res.send(cartItems);
+    pool.query(getQuery).then((result) => {
+        res.send(result.rows);
+    }).catch((err) => {
+        res.send('500 server ' + err);
+    });
 });
 
-shoppingCarts.put('/shopping-cart/:id', (req, res) => {
+cartItems.post('/shopping-cart', (req, res) => {
+    console.log('POST request made');
+    pool.query(insertQuery, [req.body.product, req.body.price, req.body.quantity])
+    .then(() => {
+        pool.query(getQuery).then((result) => {
+            res.send(result.rows);
+        }).catch((err) => {
+            res.send('500 server ' + err);
+        
+        });
+    });
+});
+
+cartItems.put('/shopping-cart/:id', (req, res) => {
     console.log('PUT request made');
-    for (item of vm.cartItems) {
-        if (req.params.id == item.id) {
-            console.log(req.params.id + ' ' + req.body);
-        }
-    }
-    res.send(cartItems);
+    pool.query(updateQuery, [req.body.quantity, parseInt(req.params.id)])
+        .then(() => {
+            pool.query(getQuery).then((result) => {
+                res.send(result.rows);
+            }).catch((err) => {
+                res.send('500 server ' + err);
+            });
+        });
 });
 
-shoppingCarts.delete('/shopping-cart/:id', (req, res) => {
+cartItems.delete('/shopping-cart/:id', (req, res) => {
     console.log('DELETE resquest made');
-    for (item of vm.cartItems) {
-        if (req.params.id == item.id) {
-            console.log(req.params.id + ' ' + req.body);
-        }
-    }
-    res.send(cartItems);
+    pool.query(deleteQuery, [parseInt(req.params.id)])
+        .then(() => {
+            pool.query(getQuery).then((result) => {
+                res.send(result.rows);
+            }).catch((err) => {
+                res.send('500 server ' + err);
+            });
+        });
 });
 
-module.exports = shoppingCarts;
+module.exports = cartItems;
