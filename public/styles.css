@@ -6,7 +6,7 @@ body {
 .section__container {
     margin: 0 auto;
     padding: 0.5rem;
-    width: 40%;
+    width: 50%;
     background-color: #bbbbbb;
     border-radius: 0.25rem;
     position: relative;
@@ -32,8 +32,26 @@ img {
     margin: 1rem;
 }
 
+form {
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-around;
+}
+
+input {
+    border: 2px solid #1c4e8a;
+    border-radius: 0.25rem;
+    padding: 0.25rem;
+}
+
+button {
+    border-radius: 0.25rem;
+    border: 2px solid #1c4e8a;
+    cursor: pointer;
+}
+
 .section__item {
-    padding: 0.25rem 1rem;
+    padding: 0 1rem;
     margin: 1rem;
     color: #1c4e8a;
     background-color: #fff;
@@ -45,9 +63,18 @@ img {
 
 .input__update-quantity {
     width: 1.5rem;
+    padding: 1.5px;
     appearance: none;
+    cursor: pointer;
 }
 
 .p__total {
     font-weight: 900;
+}
+
+.btn__close {
+    background-color: inherit;
+    outline: none;
+    border: none;
+    cursor: pointer;
 }

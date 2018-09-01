@@ -34,6 +34,16 @@ function ShoppingCartService ($http) {
             return vm.cart;
         });
     }
+
+    vm.deleteItem = (id) => {
+        return $http ({
+            url: '/shopping-cart/' + id,
+            method: 'DELETE'
+        }).then((response) => {
+            vm.cart = response.data;
+            return vm.cart;
+        });
+    }
 }
 
 angular.module('app').service('ShoppingCartService', ShoppingCartService);
